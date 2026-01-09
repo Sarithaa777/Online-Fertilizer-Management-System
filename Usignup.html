@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Fertilizer App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('imgs.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #134e5e;
+        }
+
+        input {
+            background: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .autocomplete-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border: 1px solid #ddd;
+            border-top: none;
+            z-index: 99;
+            background: white;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-items div:hover {
+            background: #71b280;
+            color: white;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #71b280;
+            background: #134e5e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    <form action="reg" method="POST">
+        <input type="text" name="full_Name" placeholder="Full Name" required><br>
+        <input type="text" name="village" placeholder="Village" required><br>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button type="submit">Signup</button>
+    </form>
+
+
+    </div>
+
+    <script>
+        const villages = [
+            "Adilabad", "Bela", "Jainad", "Mavala", "Neradigonda",
+            "Bhadradri Kothagudem", "Palvancha", "Aswaraopeta", "Manuguru", "Burgampadu",
+            "Hanamkonda", "Dharmasagar", "Kamalapur", "Hasanparthy", "Velair",
+            "Hyderabad", "Shamshabad", "Ghatkesar", "Maheshwaram", "Ibrahimpatnam",
+            "Jagtial", "Metpally", "Korutla", "Mallial", "Medipalli",
+            "Nalgonda", "Miryalaguda", "Chityal", "Munugode", "Devarakonda",
+            "Karimnagar", "Huzurabad", "Manakondur", "Thimmapur", "Veenavanka",
+            "Khammam", "Wyra", "Sathupally", "Madhira", "Kusumanchi",
+            "Mahabubnagar", "Makthal", "Narayanpet", "Devarakadra", "Amangal",
+            "Medak", "Ramayampet", "Narsapur", "Kulcharam", "Haveli Ghanpur",
+            "Rangareddy", "Chevella", "Shadnagar", "Moinabad", "Maheshwaram",
+            "Warangal", "Narsampet", "Parkal", "Wardhannapet", "Duggondi",
+            "Siddipet", "Gajwel", "Dubbak", "Cherial", "Bejjanki"
+        ];
+
+        const villageInput = document.getElementById("villageInput");
+        const villageList = document.getElementById("villageList");
+
+        villageInput.addEventListener("input", function () {
+            let val = this.value.toLowerCase();
+            villageList.innerHTML = "";
+
+            if (!val) return;
+
+            villages.forEach(village => {
+                if (village.toLowerCase().includes(val)) {
+                    let div = document.createElement("div");
+                    div.textContent = village;
+                    div.addEventListener("click", function () {
+                        villageInput.value = this.textContent;
+                        villageList.innerHTML = "";
+                    });
+                    villageList.appendChild(div);
+                }
+            });
+        });
+
+        // ✅ Fixed Form Submission
+        document.getElementById("signupForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const full_name = document.getElementById("full_name").value;
+            const village = document.getElementById("villageInput").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirm_password = document.getElementById("confirm_password").value;
+
+            if (password !== confirm_password) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const response = await fetch("http://localhost:9966/reg", {  // ✅ Fixed: Changed '/signup' to '/reg'
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ full_name, village, email, password })
+            });
+
+            const data = await response.json();
+            alert(data.message);
+        });
+    </script>
+</body>
+</html>

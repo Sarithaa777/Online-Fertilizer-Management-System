@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>పంట సిఫారసులు | Crop Recommendations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f1fff1;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #recommendation {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    
+    .recommendation-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #2e8b57;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>మట్టి ఆధారిత పంట సిఫారసులు (Soil-Based Crop Recommendations)</h2>
+    
+    <div class="search-box">
+      <input type="text" id="soilInput" placeholder="మట్టిలో శోధించండి (e.g. లామీ, ఇసుక)" />
+      <button onclick="startVoiceInput()">🎤 శబ్దం</button>
+      <button onclick="searchRecommendation()">Search / శోధించండి</button>
+    </div>
+
+    <div id="recommendation"></div>
+  </div>
+
+  <script>
+    function startVoiceInput() {
+      const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'te-IN'; // Telugu
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("soilInput").value = transcript;
+        searchRecommendation();
+      };
+    }
+
+    function searchRecommendation() {
+      const soilType = document.getElementById("soilInput").value;
+      fetch('/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ soilType })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const box = document.getElementById("recommendation");
+        box.style.display = "block";
+        box.innerHTML = `<strong>🌾 పంటలు (Crops):</strong><br>${data.crops}`;
+      })
+      .catch(err => {
+        document.getElementById("recommendation").innerText = "పంట వివరాలు దొరకలేదు.";
+        document.getElementById("recommendation").style.display = "block";
+        console.error(err);
+      });
+      module.exports = cropData;
+
+    }
+  </script>
+</body>
+</html>

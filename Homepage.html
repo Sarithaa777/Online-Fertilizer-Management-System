@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroGrow - Optimize Your Farming</title>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show only the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            showSection('home'); // Show home by default
+        });
+    </script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+nav {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero-section {
+    background: url('https://via.placeholder.com/1500x600') no-repeat center center/cover;
+    color: rgb(2, 2, 2);
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.hero-section button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-section button:hover {
+    background-color: #218838;
+}
+
+section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.features-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px; /* Ensures proper spacing */
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 25%; /* Adjust based on your design */
+    min-width: 250px; /* Ensures responsiveness */
+    flex: 1;
+    text-align: left;
+}
+
+
+.product-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.product-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.product-item button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-item button:hover {
+    background-color: #0056b3;
+}
+
+#contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#contact input, #contact textarea {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#contact button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#contact button:hover {
+    background-color: #45a049;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+.navbar a{
+    padding: 10px 16px;
+    cursor: pointer;
+}
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    .product-item {
+        width: 220px;
+        text-align: center;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .product-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 10px;
+        border-radius: 5px;
+    }
+    #viewMoreButton {
+        margin-top: 10px;
+        color:#28a745;
+        padding: 8px 16px;
+        background-color: #218838;
+    }
+    #viewMoreButton a{
+        font-size: 40px;
+           text-decoration: none;
+           color: black;
+    }
+    #sendMessage {
+        margin-top: 20px;
+    }
+    #contactUs {
+        margin: 15px;
+    }
+    #name,#email,#message {
+        margin:10px;
+    } 
+
+   
+.recommendation-button:hover {
+  background-color: #246b45;
+}
+
+</style>
+</head>
+
+<body>
+    <script>
+                function scrollToSection(sectionId) {
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                }
+
+
+            let cartItems = [];
+
+            function addToCart(productName) {
+                cartItems.push(productName);
+                updateCart();
+            }
+
+            function updateCart() {
+                const cart = document.getElementById('cart');
+                cart.innerHTML = '';
+                cartItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    cart.appendChild(li);
+                });
+            }
+
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                alert(`Thank you, ${name}! We have received your message.`);
+                this.reset();
+            });
+
+
+    </script>
+     <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Online Fertilizer</div>
+        <ul>
+            <div class="navbar">
+                <a onclick="showSection('home')">Home</a>
+                <a onclick="showSection('features')">Features</a>
+                <a onclick="showSection('products')">Products</a>
+                <a onclick="showSection('contact')">Contact</a> 
+                <a href="recommendation.html">Recommendation</a>
+ 
+            </div>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="hero-section">
+        <h1>Optimize Your Fertilizer Use for Better Crop Growth!</h1>
+        <p>Personalized fertilizer recommendations, weather insights, and easy pesticide purchases.</p>
+        <p>Our Online Fertilizer System is designed to help farmers make smarter decisions about fertilizers and pesticides. By entering details like crop type, soil condition, and location, farmers receive personalized fertilizer recommendations to improve their yield. The system also tracks pesticide expiry dates and sends reminders before they expire, ensuring safe and effective use. It checks weather conditions to suggest the best time for applying fertilizers, reducing waste and saving money. Farmers can also purchase fertilizers and pesticides from trusted sellers through the platform. A simple dashboard provides essential updates on soil health, weather forecasts, and reminders to help with planning. This system helps increase crop production, save time, and reduce farming costs. By using our platform, farmers can grow healthier crops, improve soil fertility, and ensure better harvests. Our goal is to make farming easier, smarter, and more profitable for every farmer! 🚜🌱</p>
+        <button onclick="showSection('features')">Explore Features</button>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2>Platform Features</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <h3>Fertilizer Recommendations</h3>
+                <p>Our system helps farmers choose the right fertilizer for their crops.
+                    By entering details like soil type, crop name, and location, farmers get personalized fertilizer recommendations.
+                    This ensures that crops get the right nutrients at the right time, leading to better growth and higher yield.
+                    The system also suggests the correct quantity of fertilizer, preventing overuse or underuse, which can harm the soil. 
+                    It checks weather conditions to advise the best time for fertilizer application. Farmers can save money by avoiding unnecessary fertilizers and using only what is needed. 
+                    The system also provides organic and chemical fertilizer options, based on the farmer's preference.
+                    Regular updates help in maintaining soil health for long-term farming. This guidance makes farming easier, smarter, and more productive. 
+                    With the right fertilizers, crops grow stronger, healthier, and give better harvests🌾🌱</p>
+            </div>
+            <div class="feature-card">
+                <h3>Application Scheduler</h3>
+                <p>Our system helps farmers plan when and how to use fertilizers and pesticides. It gives clear guidance on the right products to use based on the type of crop and soil. Farmers can enter their details, and the system will suggest the best fertilizers and pesticides. It also checks the weather to recommend the best time for application. This helps in avoiding wastage and making sure the crops get the nutrients they need. The system tracks the expiry dates of pesticides to prevent the use of expired products. It reminds farmers when to buy new stock so they never run out. By following the recommendations, farmers can protect their crops from diseases and pests. This leads to healthier plants and better harvests. The goal is to make farming easier, more efficient, and more productive.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Weather-Based Insights</h3>
+                <p>Our system helps farmers make better decisions using real-time weather data. It provides updates on temperature, rainfall, and humidity to plan farming activities. Farmers can know the best time to plant, water, and harvest their crops. The system warns about extreme weather conditions like storms or droughts. This helps farmers protect their crops from damage. It also suggests when to apply fertilizers and pesticides for the best results. By following weather-based advice, farmers can avoid losses and improve crop growth. The system is easy to use and works on mobile phones. With accurate weather information, farming becomes more efficient and productive. This leads to better yields and higher profits for farmers.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Expery date of pesticides</h3>
+                <p>Our system helps farmers plan when and how to use fertilizers and pesticides. It gives clear guidance on the right products to use based on the type of crop and soil. Farmers can enter their details, and the system will suggest the best fertilizers and pesticides. It also checks the weather to recommend the best time for application. This helps in avoiding wastage and making sure the crops get the nutrients they need. The system tracks the expiry dates of pesticides to prevent the use of expired products. It reminds farmers when to buy new stock so they never run out. By following the recommendations, farmers can protect their crops from diseases and pests. This leads to healthier plants and better harvests. The goal is to make farming easier, more efficient, and more productive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+        <section id="products">
+            <h2>Shop Fertilizers & Pesticides</h2>
+            <div class="product-list">
+
+                <div class="product-item">
+                    <img src="fertilizer pictures/Agromin-Max.jpeg" alt="Agromin Max" class="product-image">
+                    <h3>Agromin Max</h3>
+                    <p><strong>Use:</strong> Micronutrient fertilizer to enhance plant growth and yield.</p>
+                    <p><strong>Advantages:</strong> Improves soil fertility, enhances nutrient absorption, and boosts crop productivity.</p>
+                    <p><strong>Price:</strong> 1800.00</p>
+                    <p><strong>Expiry Date:</strong> Jan 2028</p>
+                    <p><strong>Company Name:</strong> AgroTech Fertilizers Pvt. Ltd.</p>
+                    <p><strong>Description:</strong> A balanced blend of essential micronutrients designed to improve plant health.</p>
+                    <p><strong>Components:</strong> Zinc, Boron, Iron, Manganese, and Copper.</p>
+                    <p><strong>How it Works:</strong> Enhances root development, increases resistance to diseases, and improves nutrient uptake.</p>
+                    <button class="addtocart" onclick="addToCart('Agromin Max', '1800.00', 'Jan 2028', 'AgroTech Fertilizers Pvt. Ltd.', 'Micronutrient fertilizer to enhance plant growth', 'Zinc, Boron, Iron, Manganese, Copper', 'Improves root development, nutrient absorption, and disease resistance')">
+                        Add to Cart
+                    </button>
+                </div>
+                
+                
+                <div class="product-item">
+                    <img src="fertilizer pictures/police pesticide.jpg" alt="Police Pesticide" class="product-image">
+                    <h3>Police Pesticide</h3>
+                    <p><strong>Use:</strong> Broad-spectrum insecticide for pest control in crops.</p>
+                    <p><strong>Advantages:</strong> Effectively controls a wide range of insects, provides long-lasting protection, and improves crop yield.</p>
+                    <p><strong>Price:</strong> 2200.00</p>
+                    <p><strong>Expiry Date:</strong> Mar 2028</p>
+                    <p><strong>Company Name:</strong> AgroShield Pvt. Ltd.</p>
+                    <p><strong>Description:</strong> A powerful pesticide formulated to eliminate pests and protect crops from infestations.</p>
+                    <p><strong>Components:</strong> Cypermethrin, Chlorpyrifos, and organic solvents.</p>
+                    <p><strong>How it Works:</strong> Targets the nervous system of insects, preventing further damage to crops while ensuring safety for plants.</p>
+                    <button class="addtocart" onclick="addToCart('Police Pesticide', '2200.00', 'Mar 2028', 'AgroShield Pvt. Ltd.', 'Broad-spectrum insecticide', 'Cypermethrin, Chlorpyrifos, Organic Solvents', 'Kills pests by targeting their nervous system, ensuring crop safety')">
+                        Add to Cart
+                    </button>
+                </div>
+                
+
+                <div class="product-item">
+                    <img src="fertilizer pictures/nativo-300.jpg" alt="Nativo Pesticide" class="product-image">
+                    <h3>Nativo Pesticide</h3>
+                    <p><strong>Use:</strong> Systemic fungicide for protecting crops from fungal diseases.</p>
+                    <p><strong>Advantages:</strong> Prevents and controls fungal infections, enhances crop quality, and improves yield.</p>
+                    <p><strong>Price:</strong> 2500.00</p>
+                    <p><strong>Expiry Date:</strong> Feb 2028</p>
+                    <p><strong>Company Name:</strong> Bayer CropScience Ltd.</p>
+                    <p><strong>Description:</strong> A dual-action fungicide designed to protect crops from multiple fungal diseases.</p>
+                    <p><strong>Components:</strong> Tebuconazole and Trifloxystrobin.</p>
+                    <p><strong>How it Works:</strong> Inhibits fungal growth, prevents spore formation, and ensures long-lasting disease protection.</p>
+                    <button class="addtocart" onclick="addToCart('Nativo Pesticide', '2500.00', 'Feb 2028', 'Bayer CropScience Ltd.', 'Systemic fungicide for fungal disease control', 'Tebuconazole, Trifloxystrobin', 'Inhibits fungal growth and protects crops from infections')">
+                        Add to Cart
+                    </button>
+                </div>
+                
+                <div class="product-item">
+                    <img src="fertilizer pictures/move.jpg" alt="Move Insecticide" class="product-image">
+                    <h3>Move Insecticide</h3>
+                    <p><strong>Use:</strong> Broad-spectrum insecticide for controlling various crop pests.</p>
+                    <p><strong>Advantages:</strong> Fast action, long-lasting protection, and effective against multiple insects.</p>
+                    <p><strong>Price:</strong> 2600.00</p>
+                    <p><strong>Expiry Date:</strong> May 2028</p>
+                    <p><strong>Company Name:</strong> Dhanuka Agritech Ltd.</p>
+                    <p><strong>Description:</strong> A highly effective insecticide that provides superior pest control for crops.</p>
+                    <p><strong>Components:</strong> Combination of systemic and contact insecticides.</p>
+                    <p><strong>How it Works:</strong> Disrupts pest nervous system, providing quick knockdown and extended protection.</p>
+                    <button class="addtocart" onclick="addToCart('Move Insecticide', '2600.00', 'May 2028', 'Dhanuka Agritech Ltd.', 'Broad-spectrum insecticide', 'Systemic and contact insecticide blend', 'Disrupts pest nervous system for quick knockdown and long-term control')">
+                        Add to Cart
+                    </button>
+                </div>
+                
+
+                <div class="product-item">
+                    <img src="fertilizer pictures/actara pesticide.jpeg" alt="Actara Insecticide" class="product-image">
+                    <h3>Actara Insecticide</h3>
+                    <p><strong>Use:</strong> Systemic insecticide for controlling sucking pests in crops.</p>
+                    <p><strong>Advantages:</strong> Quick action, long-lasting protection, and safe for beneficial insects.</p>
+                    <p><strong>Price:</strong> 2700.00</p>
+                    <p><strong>Expiry Date:</strong> Apr 2028</p>
+                    <p><strong>Company Name:</strong> Syngenta India Ltd.</p>
+                    <p><strong>Description:</strong> A powerful insecticide that provides effective control over aphids, whiteflies, and thrips.</p>
+                    <p><strong>Components:</strong> Thiamethoxam 25% WG.</p>
+                    <p><strong>How it Works:</strong> It disrupts the nervous system of pests, ensuring quick knockdown and residual control.</p>
+                    <button class="addtocart" onclick="addToCart('Actara Insecticide', '2700.00', 'Apr 2028', 'Syngenta India Ltd.', 'Systemic insecticide for sucking pest control', 'Thiamethoxam 25% WG', 'Disrupts pest nervous system, ensuring quick knockdown and residual control')">
+                        Add to Cart
+                    </button>
+                </div>
+
+
+            </div>
+            <button class="view-more" id="viewMoreButton"><a href
+                ="viewMore.html">View More</a></button>
+          
+        </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 id="contactUs">Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <p>If you any specific product from our website , please mention it. So that we can make that product available.</p>
+            <button type="submit" id="sendMessage">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Online Fertilizer. All Rights Reserved.</p>
+    </footer>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+        
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let message = document.getElementById("message").value.trim();
+        
+            if (!name || !email || !message) {
+                alert("Please fill in all fields.");
+                return;
+            }
+        
+            let formData = { name, email, message };
+        
+            try {
+                let response = await fetch("/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                });
+        
+                let result = await response.json();
+                if (response.ok) {
+                    alert("Message sent successfully!");
+                    document.getElementById("contactForm").reset();
+                } else {
+                    alert("Failed to send message: " + result.error);
+                }
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
+        </script>
+        
+
+    <script src="script.js"></script>
+    
+</body>
+</html>

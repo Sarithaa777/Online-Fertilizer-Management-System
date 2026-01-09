@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .confirm-btn {
+            padding: 6px 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .confirm-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard - Orders</h1>
+    <table id="orders-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Pincode</th>
+                <th>Phone</th>
+                <th>Payment</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Orders will be loaded here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch and display orders
+        function loadOrders() {
+            fetch('/get-orders')
+                .then(res => res.json())
+                .then(orders => {
+                    const tableBody = document.querySelector("#orders-table tbody");
+                    tableBody.innerHTML = '';
+
+                    orders.forEach(order => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${order.id}</td>
+                            <td>${order.name}</td>
+                            <td>${order.address}</td>
+                            <td>${order.pincode}</td>
+                            <td>${order.phone}</td>
+                            <td>${order.payment_method}</td>
+                            <td>${new Date(order.created_at).toLocaleString()}</td>
+                            <td>${order.status}</td>
+                            <td>
+                                <button class="confirm-btn" ${order.status === 'confirmed' ? 'disabled' : ''} onclick="confirmOrder(${order.id}, this)">Confirm</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        // Confirm order
+        function confirmOrder(orderId, button) {
+            fetch('/confirm-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: orderId }),
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    button.disabled = true;
+                    button.parentElement.previousElementSibling.textContent = 'confirmed';
+                }
+            });
+        }
+
+        window.onload = loadOrders;
+    </script>
+</body>
+</html>
